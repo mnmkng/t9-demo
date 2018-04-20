@@ -1,6 +1,6 @@
 "use strict";
 
-const Trie = require("../trie");
+const Trie = require("../src/trie");
 
 describe("Trie", () => {
 

@@ -1,14 +1,21 @@
+"use strict";
+
 const DIGITS = {
-  'a': 2, 'b': 2, 'c': 2,
-  'd': 3, 'e': 3, 'f': 3,
-  'g': 4, 'h': 4, 'i': 4,
-  'j': 5, 'k': 5, 'l': 5,
-  'm': 6, 'n': 6, 'o': 6,
-  'p': 7, 'q': 7, 'r': 7, 's': 7,
-  't': 8, 'u': 8, 'v': 8,
-  'w': 9, 'x': 9, 'y': 9, 'z': 9
+  "a": "2", "b": "2", "c": "2",
+  "d": "3", "e": "3", "f": "3",
+  "g": "4", "h": "4", "i": "4",
+  "j": "5", "k": "5", "l": "5",
+  "m": "6", "n": "6", "o": "6",
+  "p": "7", "q": "7", "r": "7", "s": "7",
+  "t": "8", "u": "8", "v": "8",
+  "w": "9", "x": "9", "y": "9", "z": "9"
 };
 
+/**
+ * An ES6+ refactor of a T9 Trie implementation by Mitch Robb.
+ * Also fixes an originally failing test.
+ * @link http://mitchrobb.com/blog/Solving-T9-Autocomplete-with-a-Prefix-Tree/
+ */
 class Trie {
   constructor () {
     this.children = new Map(); // {digit: Trie}
@@ -18,7 +25,7 @@ class Trie {
   insert (word, useFrequency) {
     // Traverse the tree to the node where the word should be inserted. If any
     // needed nodes do not exist along the way, they are created.
-    // console.log('insert', word, useFrequency);
+    // console.log("insert", word, useFrequency);
     const nodeToAddWord = traverseAddingNodes(this);
 
     // Insert the word into the wordlist of the node returned above. Use the
@@ -28,7 +35,7 @@ class Trie {
 
     function traverseAddingNodes (node) {
       let i = 0, len = word.length;
-      // Traverse the tree's existing nodes as far as possible.
+      // Traverse the tree"s existing nodes as far as possible.
       for (i, len; i < len; i++) {
         var thisLetter = word[ i ];
         var thisDigit = DIGITS[ thisLetter ];
@@ -40,8 +47,8 @@ class Trie {
         }
       }
 
-      // If we reach this point and we still aren't at the node we want, it means
-      // that other words matching this key pattern haven't been inserted before.
+      // If we reach this point and we still aren"t at the node we want, it means
+      // that other words matching this key pattern haven"t been inserted before.
       // Continue, this time adding the required nodes as we go.
       for (i, len; i < len; i++) {
         thisLetter = word[ i ];
@@ -74,8 +81,8 @@ class Trie {
             return;
           }
         }
-        // if we've reached here, we've looked at the last word on this node and
-        // our word's frequency is less than it.
+        // if we"ve reached here, we"ve looked at the last word on this node and
+        // our word"s frequency is less than it.
         // Put my word at the end of the list.
         list.splice(i + 1, 0, wordToInsert);
       }
@@ -111,17 +118,14 @@ class Trie {
       // stopping when we reach the specified depth.
 
       // deepSuggestions is an array with (maxDepth) subarrays.
-      // Each of the subarrays will be one depth level's suggestions.
+      // Each of the subarrays will be one depth level"s suggestions.
       let deepSuggestions = [];
-      while (deepSuggestions.length < maxDepth) {
-        deepSuggestions.push([]);
-      }
 
       // The traverse function (below) fills deepSuggestions with results.
       traverse(root, 0);
       // Each level is sorted individually, because we want shallower results to
       // always be suggested first. (this is an implementation detail and
-      // there's a possibility sorting everything together might give
+      // there"s a possibility sorting everything together might give
       // better results in practice.)
       deepSuggestions = deepSuggestions.map(level => {
         return level.sort((a, b) => {
@@ -141,18 +145,33 @@ class Trie {
 
       function traverse (root, depth) {
         // Basic tree traversal, collecting results up to the required depth.
-        if (depth <= maxDepth && depth !== 0) { // Result already contains depth 0
+        if (depth) { // Result already contains depth 0
           const d = depth - 1;
+          if (!deepSuggestions[d]) deepSuggestions[d] = [];
           deepSuggestions[ d ] = deepSuggestions[ d ].concat(root.words);
         }
 
-        if (depth === maxDepth) {
+        // The stop function below handles empty results at maxDepth.
+        if (stop()) {
           return;
         }
 
-        root.children.forEach((_,subTrie) => {
+        root.children.forEach((subTrie) => {
           traverse(subTrie, depth + 1);
         });
+
+        // Only stop the tree traversal when at least a single result is
+        // retrieved. Otherwise, continue digging deeper, overriding maxDepth.
+        // This function was added to fix a failing test
+        // in the original implementation. (The last one).
+        function stop() {
+          const reachedMax = depth >= maxDepth;
+          if (!reachedMax) return false;
+          const hasResult = result.length;
+          if (hasResult) return true;
+          const hasDeepResult = deepSuggestions.filter(arr => arr.length).length;
+          return !!hasDeepResult;
+        }
       }
     }
   }

@@ -67,6 +67,7 @@ typings/
 
 # User-specific stuff:
 .idea/
+**/.bck/
 
 # CMake
 cmake-build-debug/

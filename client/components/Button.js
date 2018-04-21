@@ -1,5 +1,8 @@
 import { Col } from "antd";
 
+// This would probably make more sense
+// to be passed down as a "content" prop
+// if more modularity is desirable.
 const idToChar = {
   1: "1",
   2: "2 ABC",
@@ -14,18 +17,20 @@ const idToChar = {
   up: "⬆️",
   down: "⬇️",
   ok: "✅",
+  del: "❌",
   "*": "*",
   "#": "#"
 };
 
-const Button = ({ id, onClick }) => {
+const Button = ({ id, onClick, colSpan }) => {
   const handleClick = () => {
     onClick(id);
   };
 
+  const span = colSpan ? colSpan : 8;
 
   return (
-    <Col span={8}>
+    <Col span={span}>
       <div onClick={handleClick}>{idToChar[id]}</div>
       {/*language=CSS*/}
       <style jsx>{`

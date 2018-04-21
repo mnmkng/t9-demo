@@ -3,7 +3,7 @@ const path = require("path");
 
 const Trie = require("./trie");
 
-exports.trieBuilderSync = function trieBuilderSync(lang) {
+exports.trieBuilderFromFile = function trieBuilderSync(lang) {
   if (typeof lang !== "string" || lang.length !== 2) {
     throw new Error("Language identifier must be a two character string. Example: en cz")
   }
@@ -22,4 +22,18 @@ exports.trieBuilderSync = function trieBuilderSync(lang) {
   const trie = new Trie();
   tuples.forEach(t => trie.insert(t[1], Number(t[0])));
   return trie;
+};
+
+exports.trieBuilderFromDB = function trieBuilderFromDB(Model) {
+  return new Promise(async (resolve, reject) => {
+    const cursor = await Model.find({}).cursor();
+    const trie = new Trie();
+    cursor.on("data", (data) => {
+      trie.insert(data.word, data.freq)
+    });
+    cursor.on("end", () => {
+      resolve(trie)
+    });
+    cursor.on("error", reject)
+  });
 };

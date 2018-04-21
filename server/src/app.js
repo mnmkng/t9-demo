@@ -25,8 +25,9 @@ async function main () {
 
   await mongoose.connect(process.env.MONGO_URI);
 
-
+  console.log("Loading English word list from database...");
   const englishTrie = await trieBuilderFromDB(English);
+  console.log("English word list loaded.");
 
   app.set("trie_en", englishTrie);
 
@@ -35,6 +36,4 @@ async function main () {
   });
 }
 
-main().catch(err => {
-  throw new Error(err)
-});
+module.exports = main;

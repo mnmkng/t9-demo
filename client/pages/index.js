@@ -27,7 +27,7 @@ class Complete extends Component {
     const { dataSource } = this.state;
     return (
       <Layout>
-        <div style={{width: "400px", margin: "auto", "padding-top": "100px", "padding-bottom": "100px" }}>
+        <div style={{width: "400px", margin: "auto", "paddingTop": "100px", "paddingBottom": "100px" }}>
           <AutoComplete
             dataSource={dataSource}
             style={{ width: 400 }}

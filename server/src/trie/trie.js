@@ -1,5 +1,7 @@
 "use strict";
 
+const findIndexToInsert = require("./find-index");
+
 const DIGITS = {
   "a": "2", "b": "2", "c": "2",
   "d": "3", "e": "3", "f": "3",
@@ -13,7 +15,8 @@ const DIGITS = {
 
 /**
  * An ES6+ refactor of a T9 Trie implementation by Mitch Robb.
- * Also fixes an originally failing test.
+ * In addition to the original implementation, it fixes a failing
+ * test and implements binary search to speed up array insertions.
  * @link http://mitchrobb.com/blog/Solving-T9-Autocomplete-with-a-Prefix-Tree/
  */
 class Trie {
@@ -70,21 +73,8 @@ class Trie {
       } else {
         // Find where to insert this word among others, based on its
         // frequency property.
-        // todo: this could be faster with binary search.
-        for (var i = 0; i < wordsLength; i++) {
-          let comparedFrequency = list[ i ][ 1 ];
-          let insertFrequency = wordToInsert[ 1 ];
-
-          if (insertFrequency >= comparedFrequency) {
-            // If i see a word with lower useFrequency than mine, insert before it.
-            list.splice(i, 0, wordToInsert);
-            return;
-          }
-        }
-        // if we"ve reached here, we"ve looked at the last word on this node and
-        // our word"s frequency is less than it.
-        // Put my word at the end of the list.
-        list.splice(i + 1, 0, wordToInsert);
+        const idx = findIndexToInsert(list, useFrequency);
+        list.splice(idx, 0, wordToInsert)
       }
     }
   }

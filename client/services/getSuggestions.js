@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async function getSuggestions(digitString) {
-  const {data} = await axios.get(`http://localhost:4000/${digitString}`);
+  const {data} = await axios.get(`http://localhost:4000/english/${digitString}`);
   console.log("from axios", data);
   return _dedupe(data);
 }

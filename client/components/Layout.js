@@ -16,26 +16,31 @@ export default ({ children }) => (
       <Header style={{background: "#fff"}}>
         <Menu
           mode="horizontal"
-          defaultSelectedKeys={["1"]}
           style={{ lineHeight: "64px" }}
         >
           <Menu.Item key="1">
             <Link href="/">
-              <a>Home</a>
+              <a>Default</a>
             </Link>
           </Menu.Item>
 
           <Menu.Item key="2">
-            <Link href="/signup">
-              <a>Register</a>
+            <Link href="/phone">
+              <a>Phone</a>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="3">
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Menu.Item>
+          {/*<Menu.Item key="2">*/}
+            {/*<Link href="/signup">*/}
+              {/*<a>Register</a>*/}
+            {/*</Link>*/}
+          {/*</Menu.Item>*/}
+
+          {/*<Menu.Item key="3">*/}
+            {/*<Link href="/login">*/}
+              {/*<a>Login</a>*/}
+            {/*</Link>*/}
+          {/*</Menu.Item>*/}
         </Menu>
       </Header>
 

@@ -10,7 +10,7 @@ exports.trieBuilderFromFile = function trieBuilderSync(lang) {
   lang = lang.toLowerCase();
   let buffer;
   try {
-    buffer = fs.readFileSync(path.join(__dirname, "..", "dictionaries", `${lang}.txt`))
+    buffer = fs.readFileSync(path.join(__dirname, "..", "..", "dictionaries", `${lang}.txt`))
   } catch (e) {
     if (e.code === "ENOENT") {
       throw new Error(`Unable to load a dictionary for language ${lang}. No dictionary available.`)

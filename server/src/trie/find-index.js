@@ -12,8 +12,6 @@
  */
 function findIndexToInsert(arr, target) {
 
-
-
   let s = 0;
   let e = arr.length;
   let m;

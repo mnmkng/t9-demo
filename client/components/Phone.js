@@ -18,7 +18,14 @@ class Phone extends Component {
   }
 
   onDigitClick = async id => {
-    this._fetchAndSetState(id);
+    const suggestions = await getSuggestions("english", this.state.currentDigits + id);
+    this.setState(({ currentDigits }) => {
+      return {
+        currentDigits: currentDigits + id,
+        suggestions: suggestions || [],
+        currentWord: suggestions[0] || ""
+      };
+    });
   };
 
   onUpClick = () => {
@@ -70,7 +77,7 @@ class Phone extends Component {
 
     if (currentDigits) {
       let newDigits = currentDigits.slice(0, -1);
-      const suggestions = await getSuggestions(newDigits);
+      const suggestions = await getSuggestions("english", newDigits);
 
       this.setState(({ currentDigits }) => {
         if (!currentDigits === newDigits) {
@@ -91,17 +98,6 @@ class Phone extends Component {
         };
       });
     }
-  };
-
-  _fetchAndSetState = async id => {
-    const suggestions = await getSuggestions(this.state.currentDigits + id);
-    this.setState(({ currentDigits, currentWord }) => {
-      return {
-        currentDigits: currentDigits + id,
-        suggestions: suggestions || [],
-        currentWord: suggestions[0] || ""
-      };
-    });
   };
 
   render() {

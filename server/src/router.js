@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.use(cors());
 
-router.get("/t9/:digits", (req, res) => {
+router.get("/demo/:digits", (req, res) => {
   const trie = req.app.get("trie_en_demo");
   res.json(trie.getSuggestions(req.params.digits, 2));
 });

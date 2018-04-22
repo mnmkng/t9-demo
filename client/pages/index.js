@@ -4,10 +4,6 @@ import Layout from "../components/Layout";
 
 import getSuggestions from "../services/getSuggestions"
 
-function onSelect(value) {
-  console.log("onSelect", value);
-}
-
 class Complete extends Component {
   state = {
     dataSource: []
@@ -15,8 +11,7 @@ class Complete extends Component {
 
   handleSearch = async value => {
 
-    const data = await getSuggestions(value);
-    console.log(data);
+    const data = await getSuggestions("demo", value);
 
     this.setState({
       dataSource: data
@@ -31,7 +26,6 @@ class Complete extends Component {
           <AutoComplete
             dataSource={dataSource}
             style={{ width: 400 }}
-            onSelect={onSelect}
             onSearch={this.handleSearch}
             placeholder="Type some numbers..."
           />

@@ -1,15 +1,28 @@
 import {signin} from "../services/apiCalls";
-import { CHANGE_AUTH } from "./types";
+import { AUTH_ERROR, AUTH_USER } from "./types";
 
-export function authenticate(isLoggedIn) {
-  return {
-    type: CHANGE_AUTH,
-    payload: isLoggedIn
-  };
+export function signinUser(credentials, history) {
+  return async function(dispatch) {
+    try {
+      await signin(credentials);
+      dispatch({type: AUTH_USER});
+      history.push("/");
+    } catch (e) {
+      dispatch(authError("Invalid username or password."))
+    }
+  }
 }
 
-export function signinUser(credentials) {
-  return async function(dispatch) {
-    await signin(credentials)
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  }
+}
+
+export function clearAuthError() {
+  return {
+    type: AUTH_ERROR,
+    payload: null
   }
 }

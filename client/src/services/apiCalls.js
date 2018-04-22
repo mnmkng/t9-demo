@@ -12,7 +12,7 @@ export async function getSuggestions(endpoint, digitString) {
   if (value) return value;
 
   try {
-    const { data } = await axios.get(`${API_URL}/${cacheKey}`);
+    const { data } = await axios.get(`${API_URL}/${cacheKey}`, {withCredentials: true});
     console.log("from axios", data);
     return cache.set(cacheKey, _dedupe(data));
   } catch (e) {
@@ -21,7 +21,7 @@ export async function getSuggestions(endpoint, digitString) {
 }
 
 export async function signin(credentials) {
-  const { data } = await axios.post(`${API_URL}/signin`, credentials);
+  return axios.post(`${API_URL}/signin`, credentials, {withCredentials: true});
 }
 
 /**

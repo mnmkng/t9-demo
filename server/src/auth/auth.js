@@ -20,13 +20,15 @@ module.exports = {
         password
       });
       await user.save();
-      return res.json({ token: _tokenForUser(user) });
+      res.cookie("access_token", _tokenForUser(req.user), {httpOnly: true, maxAge: 600000});
+      res.status(200).send();
     } catch (e) {
       return next(e);
     }
   },
   async login (req, res, next) {
-    res.json({ token: _tokenForUser(req.user) })
+    res.cookie("access_token", _tokenForUser(req.user), {httpOnly: true, maxAge: 600000});
+    res.status(200).send();
   }
 };
 

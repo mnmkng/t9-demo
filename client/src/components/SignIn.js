@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../actions/index";
+import {message} from "antd";
 import "./SignIn.css";
 
 const renderInput = field => (
@@ -17,9 +18,17 @@ const renderInput = field => (
 );
 
 class SignIn extends Component {
-  handleFormSubmit = ({ email, password }) => {
-    console.log(email, password);
-    this.props.signinUser({ email, password });
+
+  componentDidUpdate(prevProps) {
+    if (this.props.errorMessage) {
+      message.error(this.props.errorMessage)
+      prevProps.clearAuthError();
+    }
+  }
+
+  handleFormSubmit = credentials => {
+    const { signinUser, history } = this.props;
+    signinUser(credentials, history);
   };
 
   render() {
@@ -46,7 +55,11 @@ class SignIn extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {errorMessage: state.auth.error}
+}
+
 export default reduxForm({
   form: "signin",
   fields: ["email", "password"]
-})(connect(null, actions)(SignIn));
+})(connect(mapStateToProps, actions)(SignIn));

@@ -19,10 +19,15 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
   }
 });
 
-
+const cookieExtractor = function(req) {
+  if (req && req.cookies) {
+    return req.cookies["access_token"];
+  }
+  return null;
+};
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken("authorization"),
+  jwtFromRequest: cookieExtractor,
   secretOrKey: process.env.AUTH_SECRET
 };
 

@@ -11,7 +11,7 @@ const { signup, login } = require("./auth/auth");
 const requireAuth = passport.authenticate("jwt", { session: false });
 const requireLogin = passport.authenticate("local", { session: false });
 
-router.use(cors());
+router.use(cors({maxAge: 600}));
 router.use(bodyParser.json());
 
 router.get("/", (req, res) => {
@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 
 router.post("/signup", signup);
 
-router.post("/login", requireLogin, login);
+router.post("/signin", requireLogin, login);
 
 
 // public route

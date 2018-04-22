@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AutoComplete } from "antd";
 
-import getSuggestions from "../services/getSuggestions"
+import {getSuggestions} from "../services/apiCalls"
 
 class Complete extends Component {
   state = {

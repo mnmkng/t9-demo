@@ -5,20 +5,23 @@ const API_URL = "http://localhost:4000";
 
 const cache = new TrivialCache(100);
 
-export default async function getSuggestions(endpoint, digitString) {
-
+export async function getSuggestions(endpoint, digitString) {
   const cacheKey = `${endpoint}/${digitString}`;
   const value = cache.get(cacheKey);
 
   if (value) return value;
 
   try {
-    const {data} = await axios.get(`${API_URL}/${cacheKey}`);
+    const { data } = await axios.get(`${API_URL}/${cacheKey}`);
     console.log("from axios", data);
     return cache.set(cacheKey, _dedupe(data));
   } catch (e) {
     return [];
   }
+}
+
+export async function signin(credentials) {
+  const { data } = await axios.post(`${API_URL}/signin`, credentials);
 }
 
 /**

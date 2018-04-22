@@ -4,7 +4,7 @@ import { Row } from "antd";
 import "./Phone.css"
 import Button from "./Button";
 import Display from "./Display";
-import getSuggestions from "../services/getSuggestions";
+import {getSuggestions} from "../services/apiCalls";
 
 class Phone extends Component {
   constructor(props) {

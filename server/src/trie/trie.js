@@ -80,6 +80,10 @@ class Trie {
   }
 
   getSuggestions (digitString, suggestionDepth) {
+    // Ensure only numbers are passed down
+    digitString = digitString.replace(/[^\d+]/g, "");
+    if (digitString === "") return [];
+
     // Traverse the tree based on the key digits in digitString, to find the node
     // where relevant words are stored.
     let result = [];

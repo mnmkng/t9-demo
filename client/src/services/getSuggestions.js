@@ -1,7 +1,5 @@
-"use strict";
 import axios from "axios";
-
-const TrivialCache = require("./trivialCache");
+import TrivialCache from "./trivialCache";
 
 const API_URL = "http://localhost:4000";
 

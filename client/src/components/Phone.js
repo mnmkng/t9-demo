@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Row } from "antd";
 
+import "./Phone.css"
 import Button from "./Button";
 import Display from "./Display";
 import getSuggestions from "../services/getSuggestions";
@@ -140,19 +141,6 @@ class Phone extends Component {
             <Button id="#" onClick={this.onDigitClick} />
           </Row>
         </main>
-        {/*language=CSS*/}
-        <style jsx>{`
-          main {
-            text-align: center;
-            width: 48vw;
-            max-width: 500px;
-            margin: 50px auto;
-            border: 1px solid #333;
-            border-radius: 10px;
-            background: steelblue;
-            padding: 20px;
-          }
-        `}</style>
       </div>
     );
   }

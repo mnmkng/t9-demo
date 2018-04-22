@@ -1,5 +1,3 @@
-"use strict";
-
 class TrivialCache {
 
   constructor(size) {
@@ -27,4 +25,4 @@ class TrivialCache {
   }
 }
 
-module.exports = TrivialCache;
+export default TrivialCache;

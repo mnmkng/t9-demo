@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { AutoComplete } from "antd";
-import Layout from "../components/Layout";
 
 import getSuggestions from "../services/getSuggestions"
 
@@ -21,7 +20,6 @@ class Complete extends Component {
   render() {
     const { dataSource } = this.state;
     return (
-      <Layout>
         <div style={{width: "400px", margin: "auto", "paddingTop": "100px", "paddingBottom": "100px" }}>
           <AutoComplete
             dataSource={dataSource}
@@ -30,7 +28,6 @@ class Complete extends Component {
             placeholder="Type some numbers..."
           />
         </div>
-      </Layout>
     );
   }
 }

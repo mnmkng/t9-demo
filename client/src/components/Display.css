@@ -1,0 +1,19 @@
+.phone-display-output {
+    font-size: 3vw;
+    width: 95%;
+    height: 10vw;
+    margin: 10px auto 0px auto;
+    border: 1px solid #333;
+    border-bottom: 0px;
+    background: khaki;
+}
+.phone-display-suggestions {
+    font-size: 2vw;
+    width: 95%;
+    height: 20vw;
+    margin: 0px auto 10px auto;
+    border: 1px solid #333;
+    border-top: 0px;
+    background: khaki;
+    overflow: auto;
+}

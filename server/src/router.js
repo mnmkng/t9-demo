@@ -36,7 +36,7 @@ router.get("/demo/:digits", (req, res) => {
 router.get("/english", (req, res) => {
   res.json([]);
 });
-router.get("/english/:digits", requireAuth, (req, res) => {
+router.get("/english/:digits", (req, res) => {
   const trie = req.app.get("trie_en");
   res.json(trie.getSuggestions(req.params.digits, 2));
 });

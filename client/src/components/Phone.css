@@ -1,0 +1,10 @@
+main {
+    text-align: center;
+    width: 48vw;
+    max-width: 500px;
+    margin: 50px auto;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: steelblue;
+    padding: 20px;
+}

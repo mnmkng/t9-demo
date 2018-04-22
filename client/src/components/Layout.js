@@ -24,6 +24,18 @@ export default ({ children }) => (
             </Link>
           </Menu.Item>
 
+          <Menu.Item key="3">
+            <Link to="/signin">
+              Sign In
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="4">
+            <Link to="/signup">
+              Sign Up
+            </Link>
+          </Menu.Item>
+
         </Menu>
       </Header>
 

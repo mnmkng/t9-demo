@@ -7,6 +7,8 @@ mongoose.pluralize(null);
 const { trieBuilderFromFile, trieBuilderFromDB } = require("./trie/trie-builder");
 const English = require("./models/english");
 const router = require("./router");
+const errorHandler = require("./middleware/error-handler");
+const noResponseHandler = require("./middleware/no-response-handler");
 
 const PORT = process.env.PORT || 4000;
 
@@ -25,7 +27,9 @@ async function main () {
   app.set("trie_en", englishTrie);
   console.log("English word list loaded.");
 
-  app.use("/", router);
+  app.use(router);
+  app.use(errorHandler);
+  app.use(noResponseHandler);
 
   app.listen(PORT, () => {
     console.log(`API server is listening on port ${PORT}.`)

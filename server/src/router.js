@@ -22,8 +22,8 @@ router.use(morgan("short"));
 router.use(cookieParser());
 router.use(bodyParser.json());
 
-router.get("/", (req, res) => {
-  res.status(403).send("Unauthorized")
+router.all("/", (req, res) => {
+  res.status(403).json({status: 403, message: "Unauthorized"})
 });
 
 router.post("/signup", signup);
@@ -45,7 +45,7 @@ router.get("/demo/:digits", (req, res) => {
 });
 
 // authenticated route
-router.get("/english", (req, res) => {
+router.get("/english", requireAuth, (req, res) => {
   res.json([]);
 });
 router.get("/english/:digits", requireAuth, (req, res) => {

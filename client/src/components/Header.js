@@ -9,7 +9,7 @@ class Header extends Component {
     if (this.props.authenticated) {
       return (
         <Menu.Item key="3">
-          <Link to="/signin">Sign Out</Link>
+          <Link to="/signout">Sign Out</Link>
         </Menu.Item>
       );
     } else {

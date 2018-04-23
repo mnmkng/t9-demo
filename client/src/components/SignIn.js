@@ -28,7 +28,9 @@ class SignIn extends Component {
 
   handleFormSubmit = credentials => {
     const { signinUser, history } = this.props;
-    signinUser(credentials, history);
+    signinUser(credentials, (err) => {
+      if (!err) history.push("/")
+    });
   };
 
   render() {

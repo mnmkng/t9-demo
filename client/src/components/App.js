@@ -9,6 +9,7 @@ import HomePage from "./HomePage";
 import withAuth from "./hoc/withAuth";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import SignOut from "./SignOut";
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class App extends Component {
             <Route exact path="/phone" component={withAuth(Phone)} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signout" component={SignOut} />
           </Switch>
         </Layout>
       </Router>

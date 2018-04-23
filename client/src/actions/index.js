@@ -1,15 +1,27 @@
-import { signin, refreshAuth } from "../services/apiCalls";
+import { signin, refreshAuth, signout } from "../services/apiCalls";
 import { AUTH_ERROR, AUTH_USER, UNAUTH_USER } from "./types";
 
-export function signinUser(credentials, history) {
+export function signinUser(credentials, callback) {
   return async function(dispatch) {
     try {
       await signin(credentials);
       dispatch({ type: AUTH_USER });
-      history.push("/");
+      callback(null);
     } catch (e) {
       dispatch(authError("Invalid username or password."));
+      callback(e);
     }
+  };
+}
+
+export function signoutUser() {
+  return async function(dispatch) {
+    try {
+      await signout();
+    } catch (e) {
+      // do nothing atm
+    }
+    dispatch({ type: UNAUTH_USER });
   };
 }
 

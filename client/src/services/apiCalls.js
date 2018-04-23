@@ -12,7 +12,9 @@ export async function getSuggestions(endpoint, digitString) {
   if (value) return value;
 
   try {
-    const { data } = await axios.get(`${API_URL}/${cacheKey}`, {withCredentials: true});
+    const { data } = await axios.get(`${API_URL}/${cacheKey}`, {
+      withCredentials: true
+    });
     return cache.set(cacheKey, _dedupe(data));
   } catch (e) {
     return [];
@@ -20,11 +22,17 @@ export async function getSuggestions(endpoint, digitString) {
 }
 
 export async function signin(credentials) {
-  return axios.post(`${API_URL}/signin`, credentials, {withCredentials: true});
+  return axios.post(`${API_URL}/signin`, credentials, {
+    withCredentials: true
+  });
+}
+
+export async function signout(credentials) {
+  return axios.post(`${API_URL}/signout`, null, { withCredentials: true });
 }
 
 export async function refreshAuth() {
-  return axios.get(`${API_URL}/refreshAuth`, {withCredentials: true})
+  return axios.post(`${API_URL}/refreshAuth`, null, { withCredentials: true });
 }
 
 /**

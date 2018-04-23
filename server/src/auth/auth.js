@@ -2,6 +2,8 @@ const jwt = require("jwt-simple");
 
 const User = require("../models/user");
 
+const COOKIE_OPTS = {httpOnly: true, maxAge: 600000};
+
 module.exports = {
   async signup (req, res, next) {
     const { email, password } = req.body;
@@ -20,14 +22,18 @@ module.exports = {
         password
       });
       await user.save();
-      res.cookie("access_token", _tokenForUser(req.user), {httpOnly: true, maxAge: 600000});
+      res.cookie("access_token", _tokenForUser(req.user), COOKIE_OPTS);
       res.status(200).send();
     } catch (e) {
       return next(e);
     }
   },
-  login (req, res) {
-    res.cookie("access_token", _tokenForUser(req.user), {httpOnly: true, maxAge: 600000});
+  signin (req, res) {
+    res.cookie("access_token", _tokenForUser(req.user), COOKIE_OPTS);
+    res.status(200).send();
+  },
+  signout (req, res) {
+    res.clearCookie("access_token", COOKIE_OPTS);
     res.status(200).send();
   },
   /**
@@ -38,7 +44,7 @@ module.exports = {
    * @param res
    */
   refreshCookie (req, res) {
-    res.cookie("access_token", req.cookies["access_token"], {httpOnly: true, maxAge: 600000});
+    res.cookie("access_token", req.cookies["access_token"], COOKIE_OPTS);
     res.status(200).send();
   }
 

@@ -8,10 +8,10 @@ require("./auth/passport");
 
 const router = express.Router();
 
-const { signup, login, refreshCookie } = require("./auth/auth");
+const { signup, signin, signout, refreshCookie } = require("./auth/auth");
 
 const requireAuth = passport.authenticate("jwt", { session: false });
-const requireLogin = passport.authenticate("local", { session: false });
+const requireSignin = passport.authenticate("local", { session: false });
 
 router.use(cors({
   maxAge: 600,
@@ -28,9 +28,11 @@ router.get("/", (req, res) => {
 
 router.post("/signup", signup);
 
-router.post("/signin", requireLogin, login);
+router.post("/signin", requireSignin, signin);
 
-router.get("/refreshAuth", requireAuth, refreshCookie);
+router.post("/signout", signout);
+
+router.post("/refreshAuth", requireAuth, refreshCookie);
 
 
 // public route

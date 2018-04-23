@@ -27,6 +27,12 @@ export async function signin(credentials) {
   });
 }
 
+export async function signup(credentials) {
+  return axios.post(`${API_URL}/signup`, credentials, {
+    withCredentials: true
+  });
+}
+
 export async function signout(credentials) {
   return axios.post(`${API_URL}/signout`, null, { withCredentials: true });
 }

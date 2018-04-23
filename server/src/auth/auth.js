@@ -22,7 +22,7 @@ module.exports = {
         password
       });
       await user.save();
-      res.cookie("access_token", _tokenForUser(req.user), COOKIE_OPTS);
+      res.cookie("access_token", _tokenForUser(user), COOKIE_OPTS);
       res.status(200).send();
     } catch (e) {
       return next(e);

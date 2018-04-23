@@ -1,4 +1,4 @@
-import { signin, refreshAuth, signout } from "../services/apiCalls";
+import { signin, refreshAuth, signout, signup } from "../services/apiCalls";
 import { AUTH_ERROR, AUTH_USER, UNAUTH_USER } from "./types";
 
 export function signinUser(credentials, callback) {
@@ -9,6 +9,23 @@ export function signinUser(credentials, callback) {
       callback(null);
     } catch (e) {
       dispatch(authError("Invalid username or password."));
+      callback(e);
+    }
+  };
+}
+
+export function signupUser(credentials, callback) {
+  return async function(dispatch) {
+    try {
+      await signup(credentials);
+      dispatch({ type: AUTH_USER });
+      callback(null);
+    } catch (e) {
+      if (e.response.status === 422) {
+        dispatch(authError("This email is already in use."))
+      } else {
+        dispatch(authError("Sorry, we're unable to sign you up right now!"));
+      }
       callback(e);
     }
   };

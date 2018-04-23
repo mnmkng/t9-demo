@@ -35,9 +35,9 @@ class SignUp extends Component {
     }
   }
 
-  handleFormSubmit = ({email, password}) => {
+  handleFormSubmit = ({ email, password }) => {
     const { signupUser, history } = this.props;
-    signupUser({email, password}, err => {
+    signupUser({ email, password }, err => {
       if (!err) history.push("/phone");
     });
   };
@@ -104,7 +104,7 @@ const validate = values => {
     errors.passwordConfirmation = "Must be at least 3 characters long.";
   }
   if (values.password !== values.passwordConfirmation) {
-    errors.passwordConfirmation = "Password and confirmation do not match."
+    errors.passwordConfirmation = "Password and confirmation do not match.";
   }
   return errors;
 };

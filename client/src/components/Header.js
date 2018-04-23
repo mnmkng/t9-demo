@@ -26,7 +26,6 @@ class Header extends Component {
   };
 
   render() {
-
     return (
       <AntHeader style={{ background: "#fff" }}>
         <Menu mode="horizontal" style={{ lineHeight: "64px" }}>

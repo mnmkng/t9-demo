@@ -2,34 +2,43 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../actions/index";
-import {message} from "antd";
+import { message } from "antd";
 import "./SignIn.css";
 
-const renderInput = field => (
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning }
+}) => (
   <div>
-    <input
-      {...field.input}
-      type={field.type}
-      className={"ant-input signin-input"}
-    />
-    {field.meta.touched && field.meta.error}
-    <span>{field.meta.error}</span>
+    <label>{label}</label>
+    <div>
+      <input
+        {...input}
+        placeholder={label}
+        type={type}
+        className={"ant-input signin-input"}
+      />
+      {touched &&
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
+    </div>
   </div>
 );
 
 class SignIn extends Component {
-
   componentDidUpdate(prevProps) {
     if (this.props.errorMessage) {
-      message.error(this.props.errorMessage)
+      message.error(this.props.errorMessage);
       prevProps.clearAuthError();
     }
   }
 
   handleFormSubmit = credentials => {
     const { signinUser, history } = this.props;
-    signinUser(credentials, (err) => {
-      if (!err) history.push("/")
+    signinUser(credentials, err => {
+      if (!err) history.push("/phone");
     });
   };
 
@@ -39,12 +48,20 @@ class SignIn extends Component {
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
         <fieldset>
-          <label style={{ display: "block" }}>Email:</label>
-          <Field name="email" component={renderInput} type="email" />
+          <Field
+            name="email"
+            component={renderField}
+            type="email"
+            label="Email"
+          />
         </fieldset>
         <fieldset>
-          <label style={{ display: "block" }}>Password</label>
-          <Field name="password" component={renderInput} type="password" />
+          <Field
+            name="password"
+            component={renderField}
+            type="password"
+            label="Password"
+          />
         </fieldset>
         <button
           action="submit"
@@ -58,10 +75,25 @@ class SignIn extends Component {
 }
 
 function mapStateToProps(state) {
-  return {errorMessage: state.auth.error}
+  return { errorMessage: state.auth.error };
 }
+
+const validate = values => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 3) {
+    errors.password = "Must be at least 3 characters long.";
+  }
+  return errors;
+};
 
 export default reduxForm({
   form: "signin",
-  fields: ["email", "password"]
+  validate
 })(connect(mapStateToProps, actions)(SignIn));

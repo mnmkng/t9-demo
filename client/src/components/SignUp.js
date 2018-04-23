@@ -1,115 +1,115 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
-const FormItem = Form.Item;
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
+import * as actions from "../actions/index";
+import { message } from "antd";
+import "./SignUp.css";
 
-class RegistrationForm extends Component {
-  state = {
-    confirmDirty: false,
-  };
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-      }
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning }
+}) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <input
+        {...input}
+        placeholder={label}
+        type={type}
+        className={"ant-input signup-input"}
+      />
+      {touched &&
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  </div>
+);
+
+class SignUp extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.errorMessage) {
+      message.error(this.props.errorMessage);
+      prevProps.clearAuthError();
+    }
+  }
+
+  handleFormSubmit = ({email, password}) => {
+    const { signupUser, history } = this.props;
+    signupUser({email, password}, err => {
+      if (!err) history.push("/phone");
     });
-  };
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
+    const { handleSubmit } = this.props;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label="E-mail">
-          {getFieldDecorator("email", {
-            rules: [
-              {
-                type: "email",
-                message: "The input is not valid E-mail!"
-              },
-              {
-                required: true,
-                message: "Please input your E-mail!"
-              }
-            ]
-          })(<Input />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Password">
-          {getFieldDecorator("password", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your password!"
-              },
-              {
-                validator: this.validateToNextPassword
-              }
-            ]
-          })(<Input type="password" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Confirm Password">
-          {getFieldDecorator("confirm", {
-            rules: [
-              {
-                required: true,
-                message: "Please confirm your password!"
-              },
-              {
-                validator: this.compareToFirstPassword
-              }
-            ]
-          })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-        </FormItem>
-      </Form>
+      <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+        <fieldset>
+          <Field
+            name="email"
+            component={renderField}
+            type="email"
+            label="Email"
+          />
+        </fieldset>
+        <fieldset>
+          <Field
+            name="password"
+            component={renderField}
+            type="password"
+            label="Password"
+          />
+        </fieldset>
+        <fieldset>
+          <Field
+            name="passwordConfirmation"
+            component={renderField}
+            type="password"
+            label="Confirm Password"
+          />
+        </fieldset>
+        <button
+          action="submit"
+          className={"ant-btn ant-btn-primary signup-button"}
+        >
+          Sign Up
+        </button>
+      </form>
     );
   }
 }
 
-export default Form.create()(RegistrationForm);
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
+
+const validate = values => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 3) {
+    errors.password = "Must be at least 3 characters long.";
+  }
+  if (!values.passwordConfirmation) {
+    errors.passwordConfirmation = "Required";
+  } else if (values.passwordConfirmation.length < 3) {
+    errors.passwordConfirmation = "Must be at least 3 characters long.";
+  }
+  if (values.password !== values.passwordConfirmation) {
+    errors.passwordConfirmation = "Password and confirmation do not match."
+  }
+  return errors;
+};
+
+export default reduxForm({
+  form: "signup",
+  validate
+})(connect(mapStateToProps, actions)(SignUp));

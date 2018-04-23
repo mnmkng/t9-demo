@@ -1,0 +1,12 @@
+.content-wrapper {
+    min-width: 400px;
+    margin: auto;
+}
+
+.ant-layout {
+    background: #fff;
+}
+
+.ant-layout-footer {
+    background: #fff;
+}

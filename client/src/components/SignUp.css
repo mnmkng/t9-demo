@@ -1,15 +1,15 @@
-.signin-input {
+.signup-input {
     margin: 0 10px;
     max-width: 300px;
 }
 
-.signin-input + span {
+.signup-input + span {
     display: block;
     color: red;
     margin: 0 10px;
 }
 
-.signin-button {
+.signup-button {
     margin: 10px;
     max-width: 300px;
     width: 100%;

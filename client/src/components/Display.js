@@ -12,7 +12,7 @@ class Display extends Component {
 
   render() {
 
-    const {output, suggestions, currentWord} = this.props;
+    const {output, currentWord, suggestions, currentDigits} = this.props;
 
     return (
       <div>
@@ -20,7 +20,8 @@ class Display extends Component {
           {`${output.join(" ")} ${currentWord}`}
         </div>
         <div className="phone-display-suggestions">
-          {suggestions.join(" ")}
+          {/*{suggestions.join(" ")}*/}
+          {suggestions.length ? suggestions.join(" ") : currentDigits}
         </div>
       </div>
     );

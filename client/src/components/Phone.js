@@ -102,7 +102,7 @@ class Phone extends Component {
   };
 
   render() {
-    const { suggestions, output, currentWord } = this.state;
+    const { suggestions, output, currentWord, currentDigits } = this.state;
 
     return (
       <div>
@@ -112,6 +112,7 @@ class Phone extends Component {
               suggestions={suggestions}
               output={output}
               currentWord={currentWord}
+              currentDigits={currentDigits}
             />
           </Row>
           <Row>

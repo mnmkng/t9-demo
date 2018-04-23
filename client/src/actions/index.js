@@ -22,7 +22,7 @@ export function signupUser(credentials, callback) {
       callback(null);
     } catch (e) {
       if (e.response.status === 422) {
-        dispatch(authError("This email is already in use."));
+        dispatch(authError(e.response.data.message));
       } else {
         dispatch(authError("Sorry, we're unable to sign you up right now!"));
       }

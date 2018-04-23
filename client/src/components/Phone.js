@@ -29,7 +29,7 @@ class Phone extends Component {
     });
   };
 
-  onUpClick = () => {
+  onDownClick = () => {
     this.setState(({ selectedSuggestionIdx, suggestions }) => {
       if (!suggestions.length) return;
 
@@ -44,7 +44,7 @@ class Phone extends Component {
     });
   };
 
-  onDownClick = () => {
+  onUpClick = () => {
     this.setState(({ selectedSuggestionIdx, suggestions }) => {
       if (!suggestions.length) return;
 

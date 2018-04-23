@@ -9,13 +9,13 @@ module.exports = {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(422).send({ error: "You must provide email and password." })
+      return res.status(422).send({ message: "You must provide email and password." })
     }
 
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(422).json({ error: "Email is in use." })
+        return res.status(422).json({ message: "Email is already in use." })
       }
       user = new User({
         email,

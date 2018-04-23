@@ -86,7 +86,7 @@ describe("Trie", () => {
       expect(t.getSuggestions("2776")).toEqual([ "appo" ]);
     });
 
-    test.skip("should not throw errors if there is no existing path", () => {
+    test("should not throw errors if there is no existing path", () => {
       expect(t.getSuggestions("22222")).toEqual([]);
       // right now it"s giving a bunch of earlier ones?
     });

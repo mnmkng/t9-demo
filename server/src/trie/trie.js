@@ -66,6 +66,9 @@ class Trie {
 
     function insertWordIntoListByFrequency ({words: list, wordSet}, word, useFrequency) {
 
+      // I'm using an ES6 set to track duplicate words, it almost doubles the memory
+      // footprint but is significantly faster than looping through the arrays
+      // all the time. I clear the wordSets after the Trie is complete.
       if (wordSet.has(word)) return;
 
       const wordToInsert = [ word, useFrequency ]; // Store word in a tuple.
@@ -84,6 +87,8 @@ class Trie {
     }
   }
 
+  // Purges the wordSets from the Tries that are used to
+  // keep track of dupe words. It could get pretty large.
   purgeSets() {
     this.children.forEach((subTrie) => {
       subTrie.wordSet.clear();
@@ -103,7 +108,7 @@ class Trie {
 
     for (var i = 0; i < digitString.length; i++) {
       let thisDigit = digitString[ i ];
-      if (!node.children.has(thisDigit)) break;
+      if (!node.children.has(thisDigit)) return [];
       node = node.children.get(thisDigit);
     }
 

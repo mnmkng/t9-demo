@@ -7,12 +7,27 @@ import './index.css';
 
 import App from "./components/App";
 import reducers from './reducers';
+import {AUTH_USER, UNAUTH_USER} from "./actions/types";
+import {refreshAuth} from "./services/apiCalls";
 
-const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
-ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+async function main() {
+  const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+  const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+  try {
+    await refreshAuth();
+    store.dispatch({type: AUTH_USER})
+  } catch (e) {
+    store.dispatch({type: UNAUTH_USER})
+  }
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  );
+}
+
+main();

@@ -42,17 +42,6 @@ export function signoutUser() {
   };
 }
 
-export function checkSession() {
-  return async function(dispatch) {
-    try {
-      await refreshAuth();
-      dispatch({ type: AUTH_USER });
-    } catch (e) {
-      dispatch({ type: UNAUTH_USER });
-    }
-  };
-}
-
 export function authError(error) {
   return {
     type: AUTH_ERROR,

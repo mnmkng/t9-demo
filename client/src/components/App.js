@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import * as actions from "../actions";
 
 import Layout from "./Layout";
 import Phone from "./Phone";
@@ -12,9 +10,6 @@ import SignUp from "./SignUp";
 import SignOut from "./SignOut";
 
 class App extends Component {
-  componentDidMount() {
-    this.props.checkSession();
-  }
 
   render() {
     return (
@@ -33,4 +28,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+export default App;

@@ -1,4 +1,4 @@
-import { signin, refreshAuth, signout, signup } from "../services/apiCalls";
+import { signin, signout, signup } from "../services/apiCalls";
 import { AUTH_ERROR, AUTH_USER, UNAUTH_USER } from "./types";
 
 export function signinUser(credentials, callback) {

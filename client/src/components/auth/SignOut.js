@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../actions";
+import * as actions from "../../actions/index";
 
 class SignOut extends Component {
   componentDidMount() {

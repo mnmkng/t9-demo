@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import * as actions from "../actions/index";
+import * as actions from "../../actions/index";
 import { message } from "antd";
-import "./SignUp.css";
+import "./SignIn.css";
 
 const renderField = ({
   input,
@@ -18,7 +18,7 @@ const renderField = ({
         {...input}
         placeholder={label}
         type={type}
-        className={"ant-input signup-input"}
+        className={"ant-input signin-input"}
       />
       {touched &&
         ((error && <span>{error}</span>) ||
@@ -27,7 +27,7 @@ const renderField = ({
   </div>
 );
 
-class SignUp extends Component {
+class SignIn extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.errorMessage) {
       message.error(this.props.errorMessage);
@@ -35,9 +35,9 @@ class SignUp extends Component {
     }
   }
 
-  handleFormSubmit = ({ email, password }) => {
-    const { signupUser, history } = this.props;
-    signupUser({ email, password }, err => {
+  handleFormSubmit = credentials => {
+    const { signinUser, history } = this.props;
+    signinUser(credentials, err => {
       if (!err) history.push("/phone");
     });
   };
@@ -63,19 +63,11 @@ class SignUp extends Component {
             label="Password"
           />
         </fieldset>
-        <fieldset>
-          <Field
-            name="passwordConfirmation"
-            component={renderField}
-            type="password"
-            label="Confirm Password"
-          />
-        </fieldset>
         <button
           action="submit"
-          className={"ant-btn ant-btn-primary signup-button"}
+          className={"ant-btn ant-btn-primary signin-button"}
         >
-          Sign Up
+          Sign In
         </button>
       </form>
     );
@@ -98,18 +90,10 @@ const validate = values => {
   } else if (values.password.length < 3) {
     errors.password = "Must be at least 3 characters long.";
   }
-  if (!values.passwordConfirmation) {
-    errors.passwordConfirmation = "Required";
-  } else if (values.passwordConfirmation.length < 3) {
-    errors.passwordConfirmation = "Must be at least 3 characters long.";
-  }
-  if (values.password !== values.passwordConfirmation) {
-    errors.passwordConfirmation = "Password and confirmation do not match.";
-  }
   return errors;
 };
 
 export default reduxForm({
-  form: "signup",
+  form: "signin",
   validate
-})(connect(mapStateToProps, actions)(SignUp));
+})(connect(mapStateToProps, actions)(SignIn));

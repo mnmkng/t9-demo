@@ -5,9 +5,9 @@ import Layout from "./Layout";
 import Phone from "./Phone";
 import HomePage from "./HomePage";
 import withAuth from "./hoc/withAuth";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import SignOut from "./SignOut";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
+import SignOut from "./auth/SignOut";
 
 class App extends Component {
 

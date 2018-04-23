@@ -8,7 +8,7 @@ require("./auth/passport");
 
 const router = express.Router();
 
-const { signup, login } = require("./auth/auth");
+const { signup, login, refreshCookie } = require("./auth/auth");
 
 const requireAuth = passport.authenticate("jwt", { session: false });
 const requireLogin = passport.authenticate("local", { session: false });
@@ -29,6 +29,8 @@ router.get("/", (req, res) => {
 router.post("/signup", signup);
 
 router.post("/signin", requireLogin, login);
+
+router.get("/refreshAuth", requireAuth, refreshCookie);
 
 
 // public route

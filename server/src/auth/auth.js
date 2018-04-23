@@ -26,10 +26,23 @@ module.exports = {
       return next(e);
     }
   },
-  async login (req, res, next) {
+  login (req, res) {
     res.cookie("access_token", _tokenForUser(req.user), {httpOnly: true, maxAge: 600000});
     res.status(200).send();
+  },
+  /**
+   * An endpoint that validates a cookie and returns a new one
+   * (using the same token internally). Mainly used to re-authenticate
+   * frontend after page refresh.
+   * @param req
+   * @param res
+   */
+  refreshCookie (req, res) {
+    res.cookie("access_token", req.cookies["access_token"], {httpOnly: true, maxAge: 600000});
+    res.status(200).send();
   }
+
+
 };
 
 function _tokenForUser (user) {

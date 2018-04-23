@@ -13,7 +13,6 @@ export async function getSuggestions(endpoint, digitString) {
 
   try {
     const { data } = await axios.get(`${API_URL}/${cacheKey}`, {withCredentials: true});
-    console.log("from axios", data);
     return cache.set(cacheKey, _dedupe(data));
   } catch (e) {
     return [];
@@ -24,10 +23,17 @@ export async function signin(credentials) {
   return axios.post(`${API_URL}/signin`, credentials, {withCredentials: true});
 }
 
+export async function refreshAuth() {
+  return axios.get(`${API_URL}/refreshAuth`, {withCredentials: true})
+}
+
 /**
  * Ensure keys are unique to prevent React warnings
- * in case of bad data from API. O(n) so no significant
- * impact on performance.
+ * in case of bad data from API (which will not happen
+ * with data from DB since they are "name" indexed,
+ * but might happen with data from files, since the Trie
+ * itself doesn't currently dedupe. It's O(n) anyway
+ * so no significant impact on performance.
  * @param arr
  * @returns {Array}
  * @private

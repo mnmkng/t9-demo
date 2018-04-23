@@ -1,5 +1,6 @@
 "use strict";
 
+const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
 mongoose.pluralize(null);
@@ -31,7 +32,11 @@ async function main () {
   app.use(errorHandler);
   app.use(noResponseHandler);
 
-  app.listen(PORT, () => {
+  const server = http.createServer(app);
+  server.listen(PORT, () => {
+    if (process.send) {
+      process.send(server.address())
+    }
     console.log(`API server is listening on port ${PORT}.`)
   });
 }

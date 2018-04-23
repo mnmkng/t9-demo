@@ -20,7 +20,7 @@ describe("findIndexToInsert", () => {
       const source = _generateArray();
       // shallow copy is enough since we don't modify the internal arrays
       const dupe = [...source];
-      const tuple = ["x", Math.round(Math.random() * length)];
+      const tuple = ["x", Math.round(Math.random() * source.length)];
       const idx = findIndexToInsert(source, tuple[1]);
       // modify arrays
       source.push(tuple);

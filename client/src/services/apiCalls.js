@@ -43,10 +43,9 @@ export async function refreshAuth() {
 
 /**
  * Ensure keys are unique to prevent React warnings
- * in case of bad data from API (which will not happen
- * with data from DB since they are "name" indexed,
- * but might happen with data from files, since the Trie
- * itself doesn't currently dedupe. It's O(n) anyway
+ * in case of bad data from API, which will not happen
+ * since the Trie itself dedupes its entries.
+ * I'm keeping it because it's O(n) anyway
  * so no significant impact on performance.
  * @param arr
  * @returns {Array}

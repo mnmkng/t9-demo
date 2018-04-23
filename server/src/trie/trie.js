@@ -23,6 +23,7 @@ class Trie {
   constructor () {
     this.children = new Map(); // {digit: Trie}
     this.words = [];
+    this.wordSet = new Set();
   }
 
   insert (word, useFrequency) {
@@ -34,7 +35,7 @@ class Trie {
     // Insert the word into the wordlist of the node returned above. Use the
     // data provided (frequency of use in English text) to place the word in the
     // correct position, so that we can recommend more common words first.
-    insertWordIntoListByFrequency(nodeToAddWord.words, word, useFrequency);
+    insertWordIntoListByFrequency(nodeToAddWord, word, useFrequency);
 
     function traverseAddingNodes (node) {
       let i = 0, len = word.length;
@@ -63,7 +64,10 @@ class Trie {
       return node;
     }
 
-    function insertWordIntoListByFrequency (list, word, useFrequency) {
+    function insertWordIntoListByFrequency ({words: list, wordSet}, word, useFrequency) {
+
+      if (wordSet.has(word)) return;
+
       const wordToInsert = [ word, useFrequency ]; // Store word in a tuple.
       const wordsLength = list.length;
 
@@ -76,7 +80,15 @@ class Trie {
         const idx = findIndexToInsert(list, useFrequency);
         list.splice(idx, 0, wordToInsert)
       }
+      wordSet.add(word);
     }
+  }
+
+  purgeSets() {
+    this.children.forEach((subTrie) => {
+      subTrie.wordSet.clear();
+      subTrie.purgeSets();
+    });
   }
 
   getSuggestions (digitString, suggestionDepth) {

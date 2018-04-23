@@ -20,7 +20,6 @@ describe("Trie", () => {
       t = new Trie();
 
       t.insert("appox", 10000);
-      t.insert("c", 300);
       t.insert("apb", 100);
       t.insert("ap", 100);
       t.insert("appo", 20000);
@@ -30,7 +29,6 @@ describe("Trie", () => {
       t.insert("appa", 10000);
       t.insert("c", 700);
       t.insert("appoy", 1000);
-      t.insert("c", 200);
       t.insert("appow", 2000);
       t.insert("apq", 300);
       t.insert("app", 100);
@@ -39,7 +37,7 @@ describe("Trie", () => {
 
     test("should insert words into the tree", () => {
       expect(t.words.length).toBe(0);
-      expect(t.children.get("2").words.length).toBe(5);
+      expect(t.children.get("2").words.length).toBe(3);
       expect(t.children.get("2").children.get("7").children.get("2")
         .words[ 0 ]).toEqual([ "apb", 100 ]);
       expect(t.children.get("2").children.get("7").children.get("7")
@@ -51,24 +49,33 @@ describe("Trie", () => {
     test("should order words descending by their frequency value", () => {
       expect(t.children.get("2").words[ 0 ][ 1 ]).toBe(700);
       expect(t.children.get("2").words[ 1 ][ 1 ]).toBe(500);
-      expect(t.children.get("2").words[ 2 ][ 1 ]).toBe(300);
-      expect(t.children.get("2").words[ 3 ][ 1 ]).toBe(200);
-      expect(t.children.get("2").words[ 4 ][ 1 ]).toBe(100);
+      expect(t.children.get("2").words[ 2 ][ 1 ]).toBe(100);
       expect(t.children.get("2").children.get("7").children.get("7").words[ 0 ])
         .toEqual([ "apq", 300 ]);
       expect(t.children.get("2").children.get("7").children.get("7").words[ 1 ])
         .toEqual([ "app", 100 ]);
     });
 
-    test.skip("should not create duplicate entries for words", () => {
-      // todo
+    test("should not create duplicate entries for words", () => {
       t.insert("a", 750);
       t.insert("app", 100);
       t.insert("app", 1000);
 
       expect(t.children.get("2").words[ 0 ]).not.toEqual([ "a", 750 ]);
-      expect(t.children.get("2").words.length).toBe(5);
+      expect(t.children.get("2").words.length).toBe(3);
       expect(t.children.get("2").children.get("7").children.get("7").words.length).toBe(2);
+    });
+
+    test("should purge nested sets to free memory", () => {
+      t.purgeSets();
+
+      function recurse(trie) {
+        trie.children.forEach(subTrie => {
+          expect(subTrie.wordSet.size).toBe(0);
+          recurse(subTrie);
+        })
+      }
+      recurse(t);
     });
 
     test("should suggest words at various depths`", () => {

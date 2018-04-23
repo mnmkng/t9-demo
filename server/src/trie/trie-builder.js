@@ -21,6 +21,7 @@ exports.trieBuilderFromFile = function trieBuilderSync(lang) {
 
   const trie = new Trie();
   tuples.forEach(t => trie.insert(t[1], Number(t[0])));
+  trie.purgeSets();
   return trie;
 };
 
@@ -32,6 +33,7 @@ exports.trieBuilderFromDB = function trieBuilderFromDB(Model) {
       trie.insert(data.word, data.freq)
     });
     cursor.on("end", () => {
+      trie.purgeSets();
       resolve(trie)
     });
     cursor.on("error", reject)

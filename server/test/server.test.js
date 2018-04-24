@@ -15,7 +15,6 @@ require("dotenv").config({
 
 let subProcess;
 let baseUrl;
-console.log(process.env.TEST_USER);
 
 /**
  * Forks the server in a sub-process and awaits

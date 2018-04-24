@@ -15,8 +15,8 @@ const DIGITS = {
 
 /**
  * An ES6+ refactor of a T9 Trie implementation by Mitch Robb.
- * In addition to the original implementation, it fixes a failing
- * test and implements binary search to speed up array insertions.
+ * In addition to the original implementation, it fixes all tests
+ * that were failing and implements binary search to speed up array insertions.
  * @link http://mitchrobb.com/blog/Solving-T9-Autocomplete-with-a-Prefix-Tree/
  */
 class Trie {

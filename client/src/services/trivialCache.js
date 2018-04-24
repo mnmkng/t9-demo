@@ -1,3 +1,8 @@
+/**
+ * An extremely simple cache. It just felt weird
+ * to have request made on subsequent calls to
+ * the same number combinations.
+ */
 class TrivialCache {
 
   constructor(size) {

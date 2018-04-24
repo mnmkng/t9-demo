@@ -6,6 +6,13 @@ import Button from "./Button";
 import Display from "./Display";
 import {getSuggestions} from "../services/apiCalls";
 
+
+/**
+ * The component seems huge but it's only due to the
+ * numerous buttons and their handlers. It also didn't
+ * make sense to store the state in Redux, since this
+ * component encapsulates it quite nicely.
+ */
 class Phone extends Component {
   constructor(props) {
     super(props);

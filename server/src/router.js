@@ -26,16 +26,15 @@ router.all("/", (req, res) => {
   res.status(403).json({status: 403, message: "Unauthorized"})
 });
 
+
+// auth handling routes
 router.post("/signup", signup);
-
 router.post("/signin", requireSignin, signin);
-
 router.post("/signout", signout);
-
 router.post("/refreshAuth", requireAuth, refreshCookie);
 
 
-// public route
+// public data route
 router.get("/demo", (req, res) => {
   res.json([]);
 });
@@ -44,7 +43,7 @@ router.get("/demo/:digits", (req, res) => {
   res.json(trie.getSuggestions(req.params.digits, 2));
 });
 
-// authenticated route
+// authenticated data route
 router.get("/english", requireAuth, (req, res) => {
   res.json([]);
 });

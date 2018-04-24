@@ -5,6 +5,12 @@ const API_URL = "http://localhost:4000";
 
 const cache = new TrivialCache(100);
 
+/**
+ * This endpoint handles the relevant data fetching anc caching.
+ * @param endpoint
+ * @param digitString
+ * @returns {Promise<*>}
+ */
 export async function getSuggestions(endpoint, digitString) {
   const cacheKey = `${endpoint}/${digitString}`;
   const value = cache.get(cacheKey);
@@ -37,6 +43,11 @@ export async function signout(credentials) {
   return axios.post(`${API_URL}/signout`, null, { withCredentials: true });
 }
 
+/**
+ * Since I'm using JWTs stored in Cookies for auth, because I've read
+ * somewhere that storing them in Local Storage is not really safe,
+ * I need to refresh my auth state somehow after page reload.
+ */
 export async function refreshAuth() {
   return axios.post(`${API_URL}/refreshAuth`, null, { withCredentials: true });
 }

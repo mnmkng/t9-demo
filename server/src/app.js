@@ -13,6 +13,12 @@ const noResponseHandler = require("./middleware/no-response-handler");
 
 const PORT = process.env.PORT || 4000;
 
+
+/**
+ * Using an async function here because mongoose.connect
+ * is async and I want to be sure the DB is connected before
+ * I start to build the Tries.
+ */
 async function main () {
 
   await mongoose.connect(process.env.MONGO_URI);
